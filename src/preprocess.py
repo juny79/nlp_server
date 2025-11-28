@@ -1,38 +1,12 @@
-# placeholder for src/preprocess.py
 import re
-import pandas as pd
 
-class DialoguePreprocessor:
-    def __init__(self, bos, eos):
-        self.bos = bos
-        self.eos = eos
+def clean_dialogue(text: str) -> str:
+    text = re.sub(r"https?://\S+", "", text)   # URL 제거
+    text = re.sub(r"[ㄱ-ㅎㅏ-ㅣ]+", "", text)   # ㅋㅋ,ㅎㅎ 제거
+    text = re.sub(r"[^\S\n]+", " ", text)      # 공백 normalize
+    text = re.sub(r"[\u2600-\u27BF]", "", text)  # 이모지 삭제
+    return text.strip()
 
-    def clean_text(self, text):
-        text = re.sub(r"\s+", " ", text)
-        remove = ["음", "에", "아", "어", "그", "그러니까", "그래서", "그니까"]
-        for r in remove:
-            text = text.replace(r, "")
-        return text.strip()
-
-    def parse_speakers(self, dialogue):
-        lines = dialogue.split("\n")
-        out = []
-        for line in lines:
-            if "#Person" in line:
-                out.append(line)
-        return "\n".join(out)
-
-    def format_for_encoder(self, dialogue):
-        dialog_clean = self.clean_text(dialogue)
-        speakers = self.parse_speakers(dialog_clean)
-
-        return (
-            "[대화요약]\n"
-            f"{speakers}\n"
-            "[내용]\n"
-            f"{dialog_clean}"
-        )
-
-    def prepare_train(self, df):
-        df["dialogue"] = df["dialogue"].apply(self.format_for_encoder)
-        return df
+def build_prompt(dialogue: str, template: str) -> str:
+    dialogue = clean_dialogue(dialogue)
+    return template.replace("{dialogue}", dialogue)

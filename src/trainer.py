@@ -2,7 +2,9 @@
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments, EarlyStoppingCallback
 
 def build_trainer(cfg, model, tokenizer, train_set, val_set):
-
+    # wandb 연동 설정
+    report_to = "wandb" if cfg.get("wandb", {}).get("enabled", False) else "none"
+    
     args = Seq2SeqTrainingArguments(
         output_dir=cfg["general"]["output_dir"],
         num_train_epochs=cfg["training"]["num_train_epochs"],
@@ -26,8 +28,8 @@ def build_trainer(cfg, model, tokenizer, train_set, val_set):
         generation_max_length=cfg["training"]["generation_max_length"],
         do_train=cfg["training"]["do_train"],
         do_eval=cfg["training"]["do_eval"],
-        report_to=cfg["training"]["report_to"],
-        optim=cfg["training"]["optim"]
+        report_to=report_to,
+        optim=cfg["training"].get("optim", "adamw_torch")
     )
 
     trainer = Seq2SeqTrainer(

@@ -1,0 +1,34 @@
+general:
+  data_path: ./data/
+  result_path: ./prediction/
+  save_dir: ./prediction/
+
+solar_api:
+  base_url: "https://api.upstage.ai/v1"
+  api_key_env: "SOLAR_API_KEY"
+  model: "solar-pro"
+
+tokenizer:
+  special_tokens:
+    - "<SYS>"
+    - "<USR>"
+    - "<UTT>"
+    - "<SUMMARY>"
+
+prompt:
+  template: |
+    아래는 여러 사람이 나눈 일상 대화입니다.
+    대화를 한국어로 자연스럽고 핵심만 담아 요약해 주세요.
+
+    <대화 시작>
+    {dialogue}
+    <대화 끝>
+
+    <요약>
+
+inference:
+  batch_size: 20
+  sleep: 0.8   # API rate limit 대응
+
+wandb:
+  use_wandb: false
