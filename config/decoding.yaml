@@ -1,0 +1,9 @@
+# placeholder for config/decoding.yaml
+num_beams: 6
+max_length: 100
+no_repeat_ngram_size: 3
+repetition_penalty: 1.7
+length_penalty: 1.0
+temperature: 1.0
+top_p: 0.9
+early_stopping: true
