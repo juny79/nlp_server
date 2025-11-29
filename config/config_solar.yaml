@@ -1,0 +1,43 @@
+general:
+  data_path: ./data/
+  result_path: ./prediction/
+  save_dir: ./prediction/
+
+solar_api:
+  base_url: "https://api.upstage.ai/v1"
+  api_key_env: "SOLAR_API_KEY"
+  model: "solar-pro"
+
+tokenizer:
+  special_tokens:
+    - "<SYS>"
+    - "<USR>"
+    - "<UTT>"
+    - "<SUMMARY>"
+
+prompt:
+  template: |
+    아래는 여러 사람이 나눈 일상 대화입니다.
+    이 대화를 원문의 사실만 남기고 1~2문장으로 짧게 요약하세요.
+
+    규칙:
+    - 새로운 정보, 배경, 추론, 의견, 감정, 분석을 추가하지 말 것.
+    - "요약:", "핵심:", "주요 내용:" 등 어떤 머리말도 쓰지 말 것.
+    - 번호 목록(1. 2. 3.) 금지.
+    - 설명문 금지.
+    - 문단/줄바꿈/마크다운(** **) 금지.
+    - 등장인물 이름(#Person1# 등)은 그대로 사용해도 됨.
+    - 원문에 존재하는 사실만 간단히 압축할 것.
+
+    <대화>
+    {dialogue}
+    </대화>
+
+    요약:
+
+inference:
+  batch_size: 20
+  sleep: 0.8   # API rate limit 대응
+
+wandb:
+  use_wandb: false

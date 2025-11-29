@@ -1,9 +1,5 @@
-import yaml
-from src.inference_api import inference_api
+from src.inference_api import run_inference
 
 if __name__ == "__main__":
-    with open("config/config.yaml") as f:
-        config = yaml.safe_load(f)
-
-    out = inference_api(config)
-    print(out.head())
+    df_out = run_inference()
+    print(df_out.head())
