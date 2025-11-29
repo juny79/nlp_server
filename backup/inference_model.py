@@ -91,7 +91,7 @@ def generate_summary(model, tokenizer, dialogue):
 # 5) main inference
 ############################################################
 
-def run_inference(input_csv="data/test.csv", checkpoint="./checkpoints/", output_csv="summary_A_model_output.csv"):
+def run_inference(input_csv="data/test.csv", checkpoint="./checkpoints/best_model", output_csv="summary_A_model_output_1.csv"):
 
     tokenizer, model = load_model(checkpoint)
 

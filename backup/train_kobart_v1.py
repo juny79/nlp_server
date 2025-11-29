@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 from src.utils import load_config
 from src.preprocess import DialoguePreprocessor
-from src.dataset import SummDataset
+from nlp_server.src.dataset import SummDataset
 from src.model import load_model
 from src.trainer import build_trainer
 
